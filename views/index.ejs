@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Chat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white h-screen flex items-center justify-center">
+  <div class="text-center p-4">
+    <h1 class="text-4xl font-bold mb-6">Create or Join Room</h1>
+
+    <form action="/" method="GET" class="mb-4">
+      <button type="button" onclick="createRoom()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+        Create Room
+      </button>
+    </form>
+
+    <div class="flex justify-center items-center">
+      <input id="room" type="text" placeholder="Room ID" class="px-4 py-2 border border-gray-600 rounded-l-lg bg-gray-800 text-white focus:outline-none" />
+      <button onclick="joinRoom()" class="bg-green-600 text-white px-4 py-2 rounded-r-lg hover:bg-green-700 transition">
+        Join Room
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const uuid = "<%= uuid %>";
+
+    function createRoom() {
+      window.location.href = '/' + uuid;
+    }
+
+    function joinRoom() {
+      const room = document.getElementById("room").value;
+      if (room) {
+        window.location.href = '/' + room; 
+      }
+    }
+  </script>
+</body>
+
+</html>
