@@ -1,18 +1,26 @@
 const express = require('express');
 const { v4: uuidV4 } = require('uuid');
-const http = require('http');
+const fs = require('fs');
+const https = require('https');
 const socketIo = require('socket.io');
+const path = require('path');
 
 const app = express();
-const server = http.createServer(app);
+
+// SSL certificate (self-signed)
+const sslOptions = {
+    key: fs.readFileSync('/etc/nginx/ssl/selfsigned.key'),
+    cert: fs.readFileSync('/etc/nginx/ssl/selfsigned.crt')
+};
+
+const server = https.createServer(sslOptions, app);
 const io = socketIo(server);
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
-    const id = uuidV4()
-    console.log(id)
+    const id = uuidV4();
     res.render("index", { uuid: id });
 });
 
@@ -35,4 +43,4 @@ io.on('connection', socket => {
     });
 });
 
-server.listen(3000, () => console.log('Server running on port 3000'));
+server.listen(3000, () => console.log('🔐 HTTPS Server running on port 3000'));
